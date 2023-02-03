@@ -1,0 +1,43 @@
+on: push
+name: Check Assignment
+jobs:
+  check-allowed-files:
+    runs-on: self-hosted
+    container:
+      image: ghcr.io/dukestatsci/r_gh_actions:latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+    - name: Check Files
+      run: |
+        checklist::quit_on_failure({
+          checklist::check_allowed_files(c("hw-02.qmd", "hw-02.Rproj", "README.md", "data/*.csv", "images/*.png"))
+        })
+      shell: Rscript {0}
+  
+  check-renders:
+    env:
+      GITHUB_PAT: ${{ secrets.GH_PAT }}
+    runs-on: self-hosted
+    container:
+      image: ghcr.io/dukestatsci/r_gh_actions:latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+    - name: Install Missing Packages
+      run: |
+        missing = checklist::install_missing_pkgs(dir = "./", glob = "hw-02.qmd")
+      shell: Rscript {0}
+    - name: Install dsbox
+      run: |
+        remotes::install_github("rstudio-education/dsbox")
+      shell: Rscript {0}
+    - name: Check Renders
+      run: |
+        checklist::check_qmd_renders("hw-02.qmd")
+      shell: Rscript {0}
+    - name: Create artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: hw-02-html
+        path: hw-02.html

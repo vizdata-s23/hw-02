@@ -1,0 +1,28 @@
+---
+title: "HW 02"
+author: "INSERT YOUR NAME HERE"
+format: html
+toc: true
+---
+
+## 1 - A new day, a new plot, a new geom
+
+```{r}
+#| label: label-me-1
+
+```
+
+## 2 - Foreign Connected PACs
+
+```{r}
+#| label: label-me-2
+
+```
+
+## 3 - Hop on
+
+
+## 4 - Expect More. Plot More.
+
+
+## 5 - Mirror, mirror on the wall, who’s the ugliest of them all?
